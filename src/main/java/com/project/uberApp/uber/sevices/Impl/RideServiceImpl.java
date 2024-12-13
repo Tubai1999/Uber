@@ -4,40 +4,47 @@ import com.project.uberApp.uber.dto.DriverDto;
 import com.project.uberApp.uber.dto.RideDto;
 import com.project.uberApp.uber.dto.RideRequestDto;
 import com.project.uberApp.uber.dto.RiderDto;
+import com.project.uberApp.uber.entities.Driver;
+import com.project.uberApp.uber.entities.Ride;
+import com.project.uberApp.uber.entities.enums.RideStatus;
+import com.project.uberApp.uber.sevices.RideService;
 import com.project.uberApp.uber.sevices.RiderService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RideServiceImpl implements RiderService {
+public class RideServiceImpl implements RideService {
+
     @Override
-    public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
+    public Ride getRideById(Long rideId) {
         return null;
     }
 
     @Override
-    public RiderDto acceptRide(Long rideId) {
+    public void matchWithDrivers(RideRequestDto rideRequestDto) {
+
+    }
+
+    @Override
+    public Ride createNewRide(RideRequestDto rideRequestDto, Driver driver) {
         return null;
     }
 
     @Override
-    public RideDto cancelRide(Long rideId) {
+    public Ride updateRideStatus(Long rideId, RideStatus rideStatus) {
         return null;
     }
 
     @Override
-    public DriverDto rateDriver(Long rideId, Integer rating) {
+    public Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest) {
         return null;
     }
 
     @Override
-    public RiderDto getMyProfile() {
-        return null;
-    }
-
-    @Override
-    public List<RideDto> getAllMyRides() {
+    public Page<Ride> getAllRidesOfDriver(Long driverId, PageRequest pageRequest) {
         return null;
     }
 }
