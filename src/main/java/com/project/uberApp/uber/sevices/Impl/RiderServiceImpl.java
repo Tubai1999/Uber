@@ -9,9 +9,13 @@ import com.project.uberApp.uber.entities.Rider;
 import com.project.uberApp.uber.entities.User;
 import com.project.uberApp.uber.entities.enums.RideRequestStatus;
 import com.project.uberApp.uber.repositories.RideRequestRepository;
+import com.project.uberApp.uber.repositories.RiderRepository;
 import com.project.uberApp.uber.sevices.RiderService;
 import com.project.uberApp.uber.stratigies.DriverMatchingStrategy;
 import com.project.uberApp.uber.stratigies.RideFareCalculationStrategy;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,6 +32,7 @@ public class RiderServiceImpl implements RiderService {
     private final RideFareCalculationStrategy rideFareCalculationStrategy;
     private final DriverMatchingStrategy driverMatchingStrategy;
     private final RideRequestRepository rideRequestRepository;
+    private final RiderRepository riderRepository;
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
 
@@ -70,6 +75,11 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public Rider createNewRider(User user) {
-        return null;
+        Rider rider = Rider
+                .builder()
+                .user(user)
+                .rating(0.0)
+                .build();
+        return riderRepository.save(rider);
     }
 }
