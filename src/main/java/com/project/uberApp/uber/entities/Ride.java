@@ -4,12 +4,17 @@ import com.project.uberApp.uber.entities.enums.PaymentMethod;
 import com.project.uberApp.uber.entities.enums.RideRequestStatus;
 import com.project.uberApp.uber.entities.enums.RideStatus;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ride {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +47,5 @@ public class Ride {
     private Double fare;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
+    private String otp;
 }

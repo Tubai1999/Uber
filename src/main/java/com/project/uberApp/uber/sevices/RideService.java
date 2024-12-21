@@ -13,9 +13,9 @@ public interface RideService {
 
     void matchWithDrivers(RideRequestDto rideRequestDto);
 
-    Ride createNewRide(RideRequestDto rideRequestDto, Driver driver);
+    Ride createNewRide(RideRequest rideRequest, Driver driver);
 
-    Ride updateRideStatus(Long rideId, RideStatus rideStatus);
+    Ride updateRideStatus(Ride ride, RideStatus rideStatus);
 
     //have to watch 3rd week , pagination
     Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest);
