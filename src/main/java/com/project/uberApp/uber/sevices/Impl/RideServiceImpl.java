@@ -7,10 +7,12 @@ import com.project.uberApp.uber.dto.RiderDto;
 import com.project.uberApp.uber.entities.Driver;
 import com.project.uberApp.uber.entities.Ride;
 import com.project.uberApp.uber.entities.RideRequest;
+import com.project.uberApp.uber.entities.Rider;
 import com.project.uberApp.uber.entities.enums.RideRequestStatus;
 import com.project.uberApp.uber.entities.enums.RideStatus;
 import com.project.uberApp.uber.exceptions.ResourceNotFoundException;
 import com.project.uberApp.uber.repositories.RideRepository;
+import com.project.uberApp.uber.repositories.RiderRepository;
 import com.project.uberApp.uber.sevices.RideRequestService;
 import com.project.uberApp.uber.sevices.RideService;
 import com.project.uberApp.uber.sevices.RiderService;
@@ -30,6 +32,7 @@ public class RideServiceImpl implements RideService {
     private final ModelMapper modelMapper;
     private final RideRequestService rideRequestService;
     private final RideRepository rideRepository;
+
     @Override
     public Ride getRideById(Long rideId) {
         return rideRepository.findById(rideId)
@@ -55,6 +58,7 @@ public class RideServiceImpl implements RideService {
         return rideRepository.save(ride);
     }
 
+
     @Override
     public Ride updateRideStatus(Ride ride, RideStatus rideStatus) {
         ride.setRideStatus(rideStatus);
@@ -62,14 +66,16 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest) {
+        return rideRepository.findByRider(rider,pageRequest);
     }
 
     @Override
-    public Page<Ride> getAllRidesOfDriver(Long driverId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfDriver(Driver driver, PageRequest pageRequest) {
+        return rideRepository.findByDriver(driver,pageRequest);
     }
+
+
 
     private String generateRandomOTP(){
         Random random = new Random();
