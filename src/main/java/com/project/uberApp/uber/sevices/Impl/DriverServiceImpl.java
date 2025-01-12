@@ -31,6 +31,7 @@ public class DriverServiceImpl implements DriverService {
     private final RideService rideService;
     private final ModelMapper modelMapper;
     private final PaymentService paymentService;
+    private final RatingService ratingService;
     @Override
     @Transactional
     public RideDto acceptRide(Long rideRequestId) {
@@ -90,10 +91,7 @@ public class DriverServiceImpl implements DriverService {
         ride.setStartedAt(LocalDateTime.now());
         Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
         paymentService.createNewPayment(savedRide);
-//        System.out.println("Ride: " + ride);
-//        System.out.println("Driver: " + driver);
-//        System.out.println("Ride Status: " + ride.getRideStatus());
-//        System.out.println("Saved Ride: " + savedRide);
+        ratingService.createNewRating(savedRide);
         log.info(savedRide.toString());
 
         return modelMapper.map(savedRide,RideDto.class);
@@ -120,7 +118,17 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public RiderDto rateRider(Long rideId, Integer rating) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("Driver is not the owner of this ride");
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride status is not Ended hence cannot start riding, status: "+ride.getRideStatus());
+        }
+        return ratingService.rateRider(ride, rating);
     }
 
     @Override
@@ -148,6 +156,11 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Driver updateDriverAvailability(Driver driver, boolean available) {
         driver.setAvailable(available);
+        return driverRepository.save(driver);
+    }
+
+    @Override
+    public Driver createNewDriver(Driver driver) {
         return driverRepository.save(driver);
     }
 }

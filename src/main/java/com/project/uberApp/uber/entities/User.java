@@ -3,13 +3,17 @@ package com.project.uberApp.uber.entities;
 import com.project.uberApp.uber.entities.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
-@Data
-@Table(name = "app_user")
+@Getter
+@Setter
+@Table(name = "app_user", indexes = {
+        @Index(name = "idx_user_email", columnList = "email")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
