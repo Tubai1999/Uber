@@ -25,7 +25,7 @@ public class RideRequest {
     private Point pickUpLocation;
 
     @Column(columnDefinition = "Geometry(Point, 4326)")
-    private Point dropOffLocation;
+    private Point dropOffLocation; //rurut
 
     @CreationTimestamp
     private LocalDateTime requestedTime;
